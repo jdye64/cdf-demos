@@ -1,0 +1,38 @@
+---
+# tasks file for efm
+- name: Install Java JDK 1.8
+  yum:
+    name: java-1.8.0-openjdk-devel
+    state: present
+
+- name: Install CEM-Select Repo
+  yum:
+    name: http://s3.amazonaws.com/dev.hortonworks.com/CEM/centos7/1.x/BUILDS/1.0.0.0-54/cem-select/cem-select-1.0.0.0-54.noarch.rpm
+    state: present
+
+- name: Install cem-select
+  yum:
+    name: cem-select
+    state: present
+
+- name: Install CEM repo
+  yum:
+    name: http://s3.amazonaws.com/dev.hortonworks.com/CEM/centos7/1.x/BUILDS/1.0.0.0-54/efm/efm_1_0_0_0_54-1.0.0.1.0.0.0-54.noarch.rpm
+    state: present
+
+- name: Install EFM Server
+  yum:
+    name: efm_1_0_0_0_54
+    state: present
+
+- name: Add EFM Properties file
+  template: 
+    src: efm.properties.j2 
+    dest: /usr/cem/current/efm/conf/efm.properties
+    owner: root
+    group: root
+    mode: 0644
+
+- name: Starting EFM Server
+  command: /bin/true
+  notify: Start EFM

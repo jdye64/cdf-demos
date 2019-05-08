@@ -1,0 +1,6 @@
+---
+# handlers file for efm
+- name: restart mysqld
+  service: 
+    name: mysqld 
+    state: restarted
