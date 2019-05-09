@@ -32,7 +32,3 @@
     owner: root
     group: root
     mode: 0644
-
-- name: Starting EFM Server
-  command: /bin/true
-  notify: Start EFM

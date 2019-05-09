@@ -1,4 +1,4 @@
 ---
 # handlers file for efm
 - name: Start EFM
-  shell: /usr/cem/current/efm/bin/start.sh
+  command: "/usr/cem/current/efm/bin/efm.sh start"
