@@ -1,2 +1,27 @@
 ---
 # tasks file for efm
+
+- name: Install Python 3 Development libraries
+  yum:
+    name: python3-devel
+    state: present
+
+- name: Create MiNiFi C++ Directory
+  file:
+    path: /usr/cem/current/minifi/cpp
+    state: directory
+    mode: 0755
+
+- name: Download MiNiFi C++ 1.0.0
+  unarchive:
+    src: http://apache.mirrors.tds.net/nifi/nifi-minifi-cpp/0.6.0/nifi-minifi-cpp-centos-0.6.0-bin.tar.gz
+    dest: /usr/cem/current/minifi/cpp
+    remote_src: yes
+
+- name: Add MiNiFi C++ Properties file
+  template: 
+    src: minifi.properties.j2 
+    dest: /usr/cem/current/minifi/cpp/nifi-minifi-cpp-0.6.0/conf/minifi.properties
+    owner: root
+    group: root
+    mode: 0644

@@ -19,8 +19,8 @@
 
 # Web Server Properties
 #  address: the hostname or ip address of the interface to bind to; to bind to all, use 0.0.0.0
-efm.server.address=0.0.0.0
-efm.server.port=10080
+efm.server.address={{ efm_address }}
+efm.server.port={{ efm_port }}
 efm.server.servlet.contextPath=/efm
 
 # Web Server TLS Properties
@@ -52,10 +52,10 @@ efm.security.user.proxy.headerName=x-webauth-user
 #  url: the base URL of a NiFi Registry instance
 #  bucket: Only set one of bucketId OR bucketName
 #  flowRefreshInterval: specify value and units (d=days, h=hours, m=minutes, s=seconds, ms=milliseconds)
-efm.nifi.registry.enabled=false
-efm.nifi.registry.url=http://localhost:18080
-efm.nifi.registry.bucketId=
-efm.nifi.registry.bucketName=
+efm.nifi.registry.enabled={{ efm_nifi_registry_enabled }}
+efm.nifi.registry.url={{ efm_nifi_registry_url }}
+efm.nifi.registry.bucketId={{ efm_nifi_bucket_id }}
+efm.nifi.registry.bucketName={{ efm_nifi_bucket_name }}
 efm.nifi.registry.flowRefreshInterval=60s
 
 # Database Properties

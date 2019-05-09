@@ -1,2 +1,4 @@
 ---
 # handlers file for efm
+- name: Start EFM
+  shell: /usr/cem/current/nifi-registry/nifi-registry-0.3.0/bin/start.sh

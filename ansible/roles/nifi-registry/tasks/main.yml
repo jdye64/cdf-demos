@@ -1,2 +1,37 @@
 ---
-# tasks file for efm
+# tasks file for NiFi-Registry
+- name: Install Java JDK 1.8
+  yum:
+    name: java-1.8.0-openjdk-devel
+    state: present
+
+- name: Create NiFi Registry Directory
+  file:
+    path: /usr/cem/current/nifi-registry
+    state: directory
+    mode: 0755
+
+- name: Create NiFi Toolkit Directory
+  file:
+    path: /usr/cem/current/nifi-toolkit
+    state: directory
+    mode: 0755
+
+- name: Download nifi-registry
+  unarchive:
+    src: http://mirrors.sonic.net/apache/nifi/nifi-registry/nifi-registry-0.3.0/nifi-registry-0.3.0-bin.tar.gz
+    dest: /usr/cem/current/nifi-registry
+    remote_src: yes
+
+- name: Download NiFi-Toolkit
+  unarchive:
+    src: http://www.gtlib.gatech.edu/pub/apache/nifi/1.9.2/nifi-toolkit-1.9.2-bin.tar.gz
+    dest: /usr/cem/current/nifi-toolkit
+    remote_src: yes
+
+- name: Create NiFi Registry bucket for EFM
+  command: /usr/cem/current/nifi-toolkit/nifi-toolkit-1.9.2/bin/cli.sh registry create-bucket -u http://localhost:18080 --bucketName EFM
+  ignore_errors: yes
+
+# - name: Download NiFi-Registry
+#   get_url: url=http://mirrors.sonic.net/apache/nifi/nifi-registry/nifi-registry-0.3.0/nifi-registry-0.3.0-bin.tar.gz dest=/usr/cem/current/nifi-registry-0.3.0-bin.tar.gz
