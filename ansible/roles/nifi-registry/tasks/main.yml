@@ -1,107 +1,4 @@
 ---
-# BEGIN - Ensure that NiFi-Registry PreRequisites are present
-
-- name: Install Java JDK 1.8
-  yum:
-    name: java-1.8.0-openjdk-devel
-    state: present
-  tags: [setup]
-
-- name: create CDF system group
-  group:
-    name: cdf
-    state: present
-  tags: [setup]
-
-- name: create CFM system group
-  group:
-    name: cfm
-    state: present
-  tags: [setup]
-
-- name: create CEM system group
-  group:
-    name: "{{ cem_group }}"
-    state: present
-  tags: [setup]
-
-- name: create nifi-registry system account
-  user:
-    name: "{{ nifi_registry_run_as }}"
-    groups: cdf
-    append: yes
-    system: yes
-    state: present
-  when: nifi_registry_run_as != "root"
-  tags: [setup]
-
-- name: create nifi-toolkit system account
-  user:
-    name: nifi-toolkit
-    groups: cdf
-    append: yes
-    system: yes
-    state: present
-  tags: [setup]
-
-# END - Ensure that NiFi-Registry PreRequisites are present
-
-- name: Create the CDF base directory
-  file:
-    path: /usr/cdf
-    owner: root
-    group: cdf
-    state: directory
-    mode: 0775
-
-- name: Create the base CEM directory
-  file:
-    path: /usr/cdf/cem
-    owner: root
-    group: cem
-    state: directory
-    mode: 0775
-
-- name: Create CDF Common directory
-  file:
-    path: /usr/cdf/common
-    owner: root
-    group: cdf
-    state: directory
-    mode: 0775
-
-- name: Create CFM directory
-  file:
-    path: /usr/cdf/cfm
-    owner: root
-    group: cfm
-    state: directory
-    mode: 0775
-
-- name: Create NiFi Registry Directory
-  file:
-    path: /usr/cdf/common/nifi-registry
-    owner: nifi-registry
-    group: cdf
-    state: directory
-    mode: 0775
-
-- name: Create NiFi Toolkit Directory
-  file:
-    path: /usr/cdf/common/nifi-toolkit
-    owner: nifi-toolkit
-    group: cdf
-    state: directory
-    mode: 0775
-
-- name: Create CEM current dir
-  file:
-    path: /usr/cdf/cem/current
-    owner: root
-    group: cem
-    state: directory
-    mode: 0775
-
 - name: Check if nifi registry has already been downloaded
   stat: path=/usr/cdf/common/nifi-registry/nifi-registry-0.3.0
   register: nifi_registry_dir
@@ -114,12 +11,14 @@
     group: cdf
     remote_src: yes
   when: not nifi_registry_dir.stat.exists
+  notify:
+    - start nifi-registry
+    - wait for nifi-registry to restart
 
 - file:
     path: /usr/cdf/common/nifi-registry
     owner: nifi-registry
     group: cdf
-    # when specifying mode using octal numbers, add a leading 0
     mode: 0775
     recurse: yes
 
@@ -138,12 +37,7 @@
     mode: 0644
     backup: yes
   when: nifi_registry_install_service|bool
-  tags: [conf,systemd]
-
-- name: enable nifi-registry.service
-  service:
-    name: nifi-registry
-    state: started
-    enabled: yes
-  when: nifi_registry_install_service|bool
+  notify:
+    - start nifi-registry
+    - wait for nifi-registry to restart
   tags: [conf,systemd]

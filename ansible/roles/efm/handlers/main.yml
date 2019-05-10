@@ -1,9 +1,9 @@
 ---
 # handlers file for efm
 
-- name: create efm bucket
-  command: /usr/cem/current/nifi-toolkit/bin/cli.sh registry create-bucket -u http://localhost:18080 --bucketName EFM
-  ignore_errors: yes
+# - name: create efm bucket
+#   command: /usr/cem/current/nifi-toolkit/bin/cli.sh registry create-bucket -u http://localhost:18080 --bucketName EFM
+#   ignore_errors: yes
 
 - name: start efm
   service: name=efm state=started

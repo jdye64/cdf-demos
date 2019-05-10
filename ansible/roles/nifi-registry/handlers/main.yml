@@ -4,6 +4,7 @@
   service:
     name: nifi-registry
     state: started
+    enabled: yes
 
 - name: wait for nifi-registry to restart
   local_action:

@@ -1,57 +1,62 @@
 ---
 # tasks file for efm
-- name: Install Java JDK 1.8
-  yum:
-    name: java-1.8.0-openjdk-devel
-    state: present
-
 - name: create efm system group
   group:
-    name: "{{ nifi_registry_run_as }}"
+    name: efm
     state: present
-  when: nifi_registry_run_as != "root"
   tags: [setup]
 
 - name: create efm system account
   user:
-    name: "{{ nifi_registry_run_as }}"
-    groups: "{{ nifi_registry_run_as }}"
+    name: efm
+    groups: cem
     append: yes
     system: yes
     state: present
-  when: nifi_registry_run_as != "root"
   tags: [setup]
 
-- name: Install CEM-Select Repo
-  yum:
-    name: http://s3.amazonaws.com/dev.hortonworks.com/CEM/centos7/1.x/BUILDS/1.0.0.0-54/cem-select/cem-select-1.0.0.0-54.noarch.rpm
-    state: present
+- name: Create the base CEM directory
+  file:
+    path: /usr/cdf/cem/efm
+    owner: efm
+    group: cem
+    state: directory
+    mode: 0775
 
-- name: Install cem-select
-  yum:
-    name: cem-select
-    state: present
+- name: EFM install
+  unarchive:
+    src: http://downloads-hortonworks.akamaized.net/CEM/centos7/1.x/updates/1.0.0.0/tars/efm/efm-1.0.0.1.0.0.0-54-bin.tar.gz
+    dest: /usr/cdf/cem/efm
+    owner: efm
+    group: cem
+    remote_src: yes
+  notify:
+    - start efm
 
-- name: Install CEM repo
-  yum:
-    name: http://s3.amazonaws.com/dev.hortonworks.com/CEM/centos7/1.x/BUILDS/1.0.0.0-54/efm/efm_1_0_0_0_54-1.0.0.1.0.0.0-54.noarch.rpm
-    state: present
+- name: Create EFM Symlink
+  file:
+    src: /usr/cdf/cem/efm/efm-1.0.0.1.0.0.0-54
+    dest: /usr/cdf/cem/efm/current
+    owner: efm
+    group: cem
+    state: link
 
-- name: Install EFM Server
-  yum:
-    name: efm_1_0_0_0_54
-    state: present
+- file:
+    path: /usr/cdf/cem/efm
+    owner: efm
+    group: cem
+    mode: 0775
+    recurse: yes
 
 - name: Add EFM Properties file
   template: 
     src: efm.properties.j2 
-    dest: /usr/cem/current/efm/conf/efm.properties
+    dest: /usr/cdf/cem/efm/current/conf/efm.properties
     owner: root
     group: root
     mode: 0755
   notify: 
     - "start efm"
-    - "create efm bucket"
 
 - name: install systemd efm.service
   template:
@@ -61,11 +66,5 @@
     backup: yes
   when: efm_install_service|bool
   tags: [conf,systemd]
-
-# - name: enable efm.service
-#   service:
-#     name: efm
-#     state: started
-#     enabled: yes
-#   when: efm_install_service|bool
-#   tags: [conf,systemd]
+  notify:
+    - "start efm"
