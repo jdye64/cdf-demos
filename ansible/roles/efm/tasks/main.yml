@@ -5,6 +5,23 @@
     name: java-1.8.0-openjdk-devel
     state: present
 
+- name: create efm system group
+  group:
+    name: "{{ nifi_registry_run_as }}"
+    state: present
+  when: nifi_registry_run_as != "root"
+  tags: [setup]
+
+- name: create efm system account
+  user:
+    name: "{{ nifi_registry_run_as }}"
+    groups: "{{ nifi_registry_run_as }}"
+    append: yes
+    system: yes
+    state: present
+  when: nifi_registry_run_as != "root"
+  tags: [setup]
+
 - name: Install CEM-Select Repo
   yum:
     name: http://s3.amazonaws.com/dev.hortonworks.com/CEM/centos7/1.x/BUILDS/1.0.0.0-54/cem-select/cem-select-1.0.0.0-54.noarch.rpm
@@ -31,4 +48,24 @@
     dest: /usr/cem/current/efm/conf/efm.properties
     owner: root
     group: root
+    mode: 0755
+  notify: 
+    - "start efm"
+    - "create efm bucket"
+
+- name: install systemd efm.service
+  template:
+    src: efm.service.j2
+    dest: /etc/systemd/system/efm.service
     mode: 0644
+    backup: yes
+  when: efm_install_service|bool
+  tags: [conf,systemd]
+
+# - name: enable efm.service
+#   service:
+#     name: efm
+#     state: started
+#     enabled: yes
+#   when: efm_install_service|bool
+#   tags: [conf,systemd]

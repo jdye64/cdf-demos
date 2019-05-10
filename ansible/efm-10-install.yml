@@ -1,7 +1,7 @@
 - name: Install Cloudera Edge Management (CEM) 1.0.0
-  hosts: mathias_bosch
+  hosts: aws
   become: true
   roles:
+    - nifi-toolkit
     - nifi-registry
     - efm
-    - minifi-cpp-10

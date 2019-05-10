@@ -1,0 +1,32 @@
+---
+# tasks file for nifi-toolkit
+- name: Install Java JDK 1.8
+  yum:
+    name: java-1.8.0-openjdk-devel
+    state: present
+
+- name: Create CEM Directory
+  file:
+    path: /usr/cem/current
+    state: directory
+    mode: 0755
+
+- name: Create NiFi Toolkit Directory
+  file:
+    path: /usr/cem/1.0.0.0-54/nifi-toolkit
+    state: directory
+    mode: 0755
+
+- name: Download NiFi-Toolkit
+  unarchive:
+    src: http://www.gtlib.gatech.edu/pub/apache/nifi/1.9.2/nifi-toolkit-1.9.2-bin.tar.gz
+    dest: /usr/cem/1.0.0.0-54/nifi-toolkit
+    remote_src: yes
+
+- name: Create NiFi-Toolkit  Symlink
+  file:
+    src: /usr/cem/1.0.0.0-54/nifi-toolkit/nifi-toolkit-1.9.2
+    dest: /usr/cem/current/nifi-toolkit
+    owner: root
+    group: root
+    state: link

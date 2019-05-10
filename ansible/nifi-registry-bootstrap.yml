@@ -1,0 +1,5 @@
+- name: Install & Bootstrap NiFi-Registry
+  hosts: aws
+  become: true
+  roles:
+    - nifi-registry

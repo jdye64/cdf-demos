@@ -1,0 +1,4 @@
+---
+# handlers file for nifi-toolkit
+- name: start nifi-registry
+  command: "/usr/cem/current/nifi-registry/bin/nifi-registry.sh start"

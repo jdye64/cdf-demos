@@ -8,3 +8,8 @@ efm_nifi_registry_enabled: true
 efm_nifi_registry_url: http://localhost:18080
 efm_nifi_bucket_id:
 efm_nifi_bucket_name: EFM
+
+efm_install_service: True
+efm_run_as: root
+
+efm_install_dir: "/usr/cem/1.0.0.0-54/efm"

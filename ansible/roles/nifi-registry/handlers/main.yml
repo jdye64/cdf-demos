@@ -1,4 +1,15 @@
 ---
 # handlers file for efm
-- name: Start NiFi-Registry
-  command: "/usr/cem/current/nifi-registry/nifi-registry-0.3.0/bin/nifi-registry.sh start"
+- name: start nifi-registry
+  service:
+    name: nifi-registry
+    state: started
+
+- name: wait for nifi-registry to restart
+  local_action:
+    module: wait_for
+      host={{ inventory_hostname }}
+      port=18080
+      delay=10
+      timeout=60
+  become: false

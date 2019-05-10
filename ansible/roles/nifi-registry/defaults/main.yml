@@ -1,2 +1,10 @@
 ---
-# defaults file for efm
+# defaults file for nifi-registry
+nifi_registry_install_service: True
+cem_group: cem
+nifi_registry_run_as: nifi-registry
+nifi_registry_version: "0.3.0"
+
+nifi_registry_base_dir: "/usr/cem/1.0.0.0-54/nifi-registry"
+nifi_registry_install_dir_raw: "/usr/cem/1.0.0.0-54/nifi-registry/nifi-registry-0.3.0"
+nifi_registry_install_dir: "/usr/cem/current/nifi-registry"

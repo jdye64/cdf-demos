@@ -1,5 +1,5 @@
 [aws]
-ec2-3-87-76-222.compute-1.amazonaws.com ansible_user=ec2-user ansible_ssh_private_key_file=/Users/jdyer/.ssh/efm-techops.pem
+ec2-3-80-54-108.compute-1.amazonaws.com ansible_user=ec2-user ansible_ssh_private_key_file=/Users/jdyer/.ssh/efm-techops.pem
 
 [mathias_bosch]
 ec2-35-158-124-4.eu-central-1.compute.amazonaws.com ansible_user=ec2-user ansible_ssh_private_key_file=/Users/jdyer/.ssh/CEM_mklein.pem

@@ -1,0 +1,17 @@
+# {{ ansible_managed }}
+[Unit]
+Description=Apache NiFi-Registry
+After=network.target
+StartLimitIntervalSec=0
+
+[Service]
+Type=simple
+Restart=always
+RestartSec=1
+User=nifi-registry
+Group=cdf
+ExecStart=/usr/cdf/common/nifi-registry/current/bin/nifi-registry.sh start
+ExecStop=/usr/cdf/common/nifi-registry/current/bin/nifi-registry.sh stop
+
+[Install]
+WantedBy=multi-user.target

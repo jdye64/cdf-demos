@@ -1,0 +1,13 @@
+# {{ ansible_managed }}
+[Unit]
+Description=Cloudera Edge Flow Manager
+After=network.target
+
+[Service]
+Type=forking
+User={{ efm_run_as }}
+Group={{ efm_run_as }}
+ExecStart={{ efm_install_dir }}/bin/efm.sh start
+ExecStop={{ efm_install_dir }}/bin/efm.sh stop
+Restart=on-failure
+RestartSec=60s
