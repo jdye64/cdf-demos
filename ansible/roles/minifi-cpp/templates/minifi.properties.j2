@@ -1,15 +1,15 @@
 nifi.version=0.6.0
-nifi.flow.configuration.file=./conf/config.yml
+nifi.flow.configuration.file=/usr/cdf/cem/agents/minifi/cpp/nifi-minifi-cpp-0.6.0/conf/config.yml
 nifi.administrative.yield.duration=30 sec
 # If a component has no work to do (is "bored"), how long should we wait before checking again for work?
 nifi.bored.yield.duration=10 millis
 
 # Provenance Repository #
-nifi.provenance.repository.directory.default=./provenance_repository
+nifi.provenance.repository.directory.default=/usr/cdf/cem/agents/minifi/cpp/nifi-minifi-cpp-0.6.0/provenance_repository
 nifi.provenance.repository.max.storage.time=360 MIN
 nifi.provenance.repository.max.storage.size=750 MB
-nifi.flowfile.repository.directory.default=./flowfile_repository
-nifi.database.content.repository.directory.default=./content_repository
+nifi.flowfile.repository.directory.default=/usr/cdf/cem/agents/minifi/cpp/nifi-minifi-cpp-0.6.0/flowfile_repository
+nifi.database.content.repository.directory.default=/usr/cdf/cem/agents/minifi/cpp/nifi-minifi-cpp-0.6.0/content_repository
 
 #nifi.remote.input.secure=true
 #nifi.security.need.ClientAuth=
@@ -22,18 +22,18 @@ nifi.database.content.repository.directory.default=./content_repository
 #nifi.rest.api.password=password
 
 # C2 configurations
-nifi.c2.enable=true
-nifi.c2.agent.protocol.class=CoapProtocol
-nifi.c2.agent.coap.host=cem-10.attlocal.net
-nifi.c2.agent.coap.port=8787
-nifi.c2.agent.heartbeat.period=3000
-nifi.c2.rest.url=http://cem-10.attlocal.net:10080/efm/api/c2-protocol/heartbeat
-nifi.c2.flow.base.url=http://cem-10.attlocal.net:10080/efm/api
-nifi.c2.rest.url.ack=http://cem-10.attlocal.net:10080/efm/api/c2-protocol/acknowledge
+nifi.c2.enable={{ nifi_c2_enable }}
+nifi.c2.agent.protocol.class={{ nifi_c2_agent_protocol_class }}
+nifi.c2.agent.coap.host={{ nifi_c2_host }}
+nifi.c2.agent.coap.port={{ nifi_c2_agent_coap_port }}
+nifi.c2.agent.heartbeat.period={{ nifi_c2_agent_heartbeat_period }}
+nifi.c2.rest.url=http://{{ nifi_c2_host }}:{{ nifi_c2_port }}/efm/api/c2-protocol/heartbeat
+nifi.c2.flow.base.url=http://{{ nifi_c2_host }}:{{ nifi_c2_port }}/efm/api
+nifi.c2.rest.url.ack=http://{{ nifi_c2_host }}:{{ nifi_c2_port }}/efm/api/c2-protocol/acknowledge
 
 # Agent specific configurations
-nifi.c2.agent.identifier=
-nifi.c2.agent.class=
+nifi.c2.agent.identifier={{ nifi_c2_agent_identifier }}
+nifi.c2.agent.class={{ nifi_c2_agent_class }}
 
 ## define metrics reported
 nifi.c2.root.class.definitions=metrics
@@ -54,10 +54,10 @@ nifi.c2.root.classes=DeviceInfoNode,AgentInformation,FlowInformation
 #controller.socket.port=9998
 
 #JNI properties
-nifi.framework.dir=/root/agents/gizmo/minifi-jni/lib
-nifi.nar.directory=/root/agents/gizmo/minifi-jni/nars
-nifi.nar.deploy.directory=/root/agents/gizmo/minifi-jni/nardeploy
-nifi.nar.docs.directory=/root/agents/gizmo/minifi-jni/nardocs
+#nifi.framework.dir=/root/agents/gizmo/minifi-jni/lib
+#nifi.nar.directory=/root/agents/gizmo/minifi-jni/nars
+#nifi.nar.deploy.directory=/root/agents/gizmo/minifi-jni/nardeploy
+#nifi.nar.docs.directory=/root/agents/gizmo/minifi-jni/nardocs
 # must be comma separated
-nifi.jvm.options=-Xmx1G
+#nifi.jvm.options=-Xmx1G
 #nifi.python.processor.dir=/root/agents/gizmo/minifi-python/

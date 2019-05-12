@@ -1,7 +1,8 @@
 ---
 # defaults file for efm
 efm_address: 0.0.0.0
-efm_port: 10080
+efm_rest_port: 10080
+efm_coap_port: 8787
 
 # EFM NiFi Registry defaults
 efm_nifi_registry_enabled: true

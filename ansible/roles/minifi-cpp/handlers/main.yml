@@ -1,2 +1,7 @@
 ---
 # handlers file for efm
+- name: start minificpp
+  service:
+    name: minificpp
+    state: started
+    enabled: yes

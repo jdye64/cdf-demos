@@ -1,0 +1,22 @@
+- hosts: localhost
+  connection: local
+  gather_facts: False
+  tasks:
+    - name: Provision a set of instances
+      ec2:
+         key_name: efm-techops
+         group: Cloudera Data Flow - Open Policy
+         region: us-east-1
+         instance_type: t2.micro
+         image: ami-0de53d8956e8dcf80
+         wait: true
+         exact_count: 1
+         count_tag:
+            Name: jdyer-ansible-minificpp
+         instance_tags:
+            Name: jdyer-ansible-minificpp
+      register: ec2
+
+    - name: Add all instance public IPs to host group
+      add_host: hostname={{ item.public_ip }} groups=ec2hosts
+      loop: "{{ ec2.instances }}"

@@ -20,7 +20,9 @@
 # Web Server Properties
 #  address: the hostname or ip address of the interface to bind to; to bind to all, use 0.0.0.0
 efm.server.address={{ efm_address }}
-efm.server.port={{ efm_port }}
+efm.server.port={{ efm_rest_port }}
+efm.coap.server.host={{ efm_address }}
+efm.coap.server.port={{ efm_coap_port }}
 efm.server.servlet.contextPath=/efm
 
 # Web Server TLS Properties

@@ -1,0 +1,15 @@
+# {{ ansible_managed }}
+[Unit]
+Description=Apache NiFi MiNiFi C++
+After=network.target
+StartLimitIntervalSec=0
+
+[Service]
+Type=forking
+User=minificpp
+Group=cem
+ExecStart=/usr/cdf/cem/agents/minifi/cpp/nifi-minifi-cpp-0.6.0/bin/minifi.sh start
+ExecStop=/usr/cdf/cem/agents/minifi/cpp/nifi-minifi-cpp-0.6.0/bin/minifi.sh stop
+
+[Install]
+WantedBy=multi-user.target

@@ -44,6 +44,15 @@
     state: present
   tags: [setup]
 
+- name: create minificpp system account
+  user:
+    name: minificpp
+    groups: cem
+    append: yes
+    system: yes
+    state: present
+  tags: [setup]
+
 - name: Create the CDF base directory
   file:
     path: /usr/cdf

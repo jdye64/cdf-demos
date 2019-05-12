@@ -41,3 +41,14 @@
     - start nifi-registry
     - wait for nifi-registry to restart
   tags: [conf,systemd]
+
+- name: Add EFM Properties file
+  template: 
+    src: nifi-registry.properties.j2 
+    dest: /usr/cdf/common/nifi-registry/current/conf/nifi-registry.properties
+    owner: nifi-registry
+    group: cdf
+    mode: 0775
+  notify: 
+    - start nifi-registry
+    - wait for nifi-registry to restart

@@ -1,27 +1,109 @@
 ---
-# tasks file for efm
+# tasks file for MiNiFi C++
 
-- name: Install Python 3 Development libraries
+- name: Download EPEL Release
+  get_url:
+    url: https://dl.fedoraproject.org/pub/epel/epel-release-latest-7.noarch.rpm
+    dest: /root/epel-release-latest-7.noarch.rpm
+    mode: 0775
+
+- name: Install EPEL Release
+  command: yum -y install /root/epel-release-latest-7.noarch.rpm
+  ignore_errors: yes
+
+- name: Install Python 3.4 Devel
   yum:
-    name: python3-devel
+    name: python34-devel
     state: present
+  tags: [setup]
 
 - name: Create MiNiFi C++ Directory
   file:
-    path: /usr/cem/current/minifi/cpp
+    path: /usr/cdf/cem/agents/minifi/cpp
     state: directory
     mode: 0755
 
 - name: Download MiNiFi C++ 1.0.0
   unarchive:
     src: http://apache.mirrors.tds.net/nifi/nifi-minifi-cpp/0.6.0/nifi-minifi-cpp-centos-0.6.0-bin.tar.gz
-    dest: /usr/cem/current/minifi/cpp
+    dest: /usr/cdf/cem/agents/minifi/cpp
     remote_src: yes
 
 - name: Add MiNiFi C++ Properties file
   template: 
     src: minifi.properties.j2 
-    dest: /usr/cem/current/minifi/cpp/nifi-minifi-cpp-0.6.0/conf/minifi.properties
+    dest: /usr/cdf/cem/agents/minifi/cpp/nifi-minifi-cpp-0.6.0/conf/minifi.properties
+    owner: minificpp
+    group: cem
+    mode: 0775
+  notify:
+    - start minificpp
+
+- name: Add/Change MiNiFi C++ logging configuration
+  template: 
+    src: minifi-log.properties.j2 
+    dest: /usr/cdf/cem/agents/minifi/cpp/nifi-minifi-cpp-0.6.0/conf/minifi-log.properties
+    owner: minificpp
+    group: cem
+    mode: 0775
+  notify:
+    - start minificpp
+
+- file:
+    path: /usr/cdf/cem/agents
     owner: root
-    group: root
+    group: cem
+    mode: 0775
+    recurse: yes
+
+- file:
+    path: /usr/cdf/cem/agents/minifi/cpp
+    owner: minificpp
+    group: cem
+    mode: 0775
+    recurse: yes
+
+- name: install systemd minificpp.service
+  template:
+    src: minificpp.service.j2
+    dest: /etc/systemd/system/minificpp.service
     mode: 0644
+    backup: yes
+  tags: [conf,systemd]
+
+# - name: Create Python 3.4 Build directory
+#   file:
+#     path: /opt/python3
+#     state: directory
+#     mode: 0755
+
+# - name: download python 3.4 source code
+#   unarchive:
+#     src: https://www.python.org/ftp/python/3.4.2/Python-3.4.2.tgz
+#     dest: /root
+#     remote_src: yes
+
+# - name: Install build tools
+#   yum:
+#     name: "@Development tools"
+#     state: present
+
+# - name: configure python34
+#   command: ./configure --prefix=/opt/python3 --enable-shared 
+#   args:
+#     chdir: "/root/Python-3.4.2"
+
+# # Pass in extra arguments to build
+# - name: Make Python 3.4
+#   make:
+#     chdir: /root/Python-3.4.2
+#     target: all
+#     params:
+#       NUM_THREADS: 4
+
+# - name: Install Python 3.4
+#   make:
+#     chdir: /root/Python-3.4.2
+#     target: install
+#     params:
+#       NUM_THREADS: 4

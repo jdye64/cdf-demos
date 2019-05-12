@@ -1,2 +1,12 @@
 ---
 # defaults file for efm
+nifi_c2_enable: true
+#nifi_c2_agent_protocol_class: CoapProtocol
+nifi_c2_agent_protocol_class: RESTSender
+nifi_c2_agent_coap_port: 8787
+nifi_c2_agent_heartbeat_period: 3000
+nifi_c2_host: localhost
+nifi_c2_port: 10080
+
+nifi_c2_agent_identifier: something
+nifi_c2_agent_class: something

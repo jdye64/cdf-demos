@@ -5,3 +5,4 @@
     - cdf
     - nifi-registry
     - efm
+    - minifi-cpp
