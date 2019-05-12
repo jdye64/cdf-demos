@@ -4,5 +4,9 @@
   roles:
     - cdf
     - nifi-registry
+    - nifi-toolkit
+    - mysql
     - efm
     - minifi-cpp
+    - cfm
+    - nifi
