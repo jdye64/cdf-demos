@@ -1,0 +1,318 @@
+{
+  "snapshotMetadata" : {
+    "version" : 2,
+    "timestamp" : 1557775057331,
+    "author" : "anonymous",
+    "comments" : ""
+  },
+  "flowContents" : {
+    "identifier" : "c1b8e3f8-3fdd-382a-a364-a6313dd9ce2c",
+    "name" : "Barcode Demo",
+    "comments" : "",
+    "position" : {
+      "x" : 154.0,
+      "y" : -333.5
+    },
+    "processGroups" : [ ],
+    "remoteProcessGroups" : [ ],
+    "processors" : [ {
+      "identifier" : "d3268207-6311-3886-8e8e-353989dcbc60",
+      "name" : "Get Barcodes from Directory",
+      "comments" : "",
+      "position" : {
+        "x" : 194.0,
+        "y" : 160.0
+      },
+      "bundle" : {
+        "group" : "org.apache.nifi",
+        "artifact" : "nifi-standard-nar",
+        "version" : "1.9.0.1.0.0.0-90"
+      },
+      "style" : { },
+      "type" : "org.apache.nifi.processors.standard.GetFile",
+      "properties" : {
+        "Keep Source File" : "true",
+        "Minimum File Age" : "0 sec",
+        "Polling Interval" : "0 sec",
+        "Input Directory" : "/usr/cdf/cfm/nifi/barcodes",
+        "Batch Size" : "10",
+        "Minimum File Size" : "0 B",
+        "Ignore Hidden Files" : "true",
+        "Recurse Subdirectories" : "true",
+        "File Filter" : "[^\\.].*"
+      },
+      "propertyDescriptors" : {
+        "Keep Source File" : {
+          "name" : "Keep Source File",
+          "displayName" : "Keep Source File",
+          "identifiesControllerService" : false,
+          "sensitive" : false
+        },
+        "Minimum File Age" : {
+          "name" : "Minimum File Age",
+          "displayName" : "Minimum File Age",
+          "identifiesControllerService" : false,
+          "sensitive" : false
+        },
+        "Polling Interval" : {
+          "name" : "Polling Interval",
+          "displayName" : "Polling Interval",
+          "identifiesControllerService" : false,
+          "sensitive" : false
+        },
+        "Input Directory" : {
+          "name" : "Input Directory",
+          "displayName" : "Input Directory",
+          "identifiesControllerService" : false,
+          "sensitive" : false
+        },
+        "Maximum File Age" : {
+          "name" : "Maximum File Age",
+          "displayName" : "Maximum File Age",
+          "identifiesControllerService" : false,
+          "sensitive" : false
+        },
+        "Batch Size" : {
+          "name" : "Batch Size",
+          "displayName" : "Batch Size",
+          "identifiesControllerService" : false,
+          "sensitive" : false
+        },
+        "Maximum File Size" : {
+          "name" : "Maximum File Size",
+          "displayName" : "Maximum File Size",
+          "identifiesControllerService" : false,
+          "sensitive" : false
+        },
+        "Minimum File Size" : {
+          "name" : "Minimum File Size",
+          "displayName" : "Minimum File Size",
+          "identifiesControllerService" : false,
+          "sensitive" : false
+        },
+        "Ignore Hidden Files" : {
+          "name" : "Ignore Hidden Files",
+          "displayName" : "Ignore Hidden Files",
+          "identifiesControllerService" : false,
+          "sensitive" : false
+        },
+        "Recurse Subdirectories" : {
+          "name" : "Recurse Subdirectories",
+          "displayName" : "Recurse Subdirectories",
+          "identifiesControllerService" : false,
+          "sensitive" : false
+        },
+        "File Filter" : {
+          "name" : "File Filter",
+          "displayName" : "File Filter",
+          "identifiesControllerService" : false,
+          "sensitive" : false
+        },
+        "Path Filter" : {
+          "name" : "Path Filter",
+          "displayName" : "Path Filter",
+          "identifiesControllerService" : false,
+          "sensitive" : false
+        }
+      },
+      "schedulingPeriod" : "30 sec",
+      "schedulingStrategy" : "TIMER_DRIVEN",
+      "executionNode" : "ALL",
+      "penaltyDuration" : "30 sec",
+      "yieldDuration" : "1 sec",
+      "bulletinLevel" : "WARN",
+      "runDurationMillis" : 0,
+      "concurrentlySchedulableTaskCount" : 1,
+      "autoTerminatedRelationships" : [ ],
+      "componentType" : "PROCESSOR",
+      "groupIdentifier" : "c1b8e3f8-3fdd-382a-a364-a6313dd9ce2c"
+    }, {
+      "identifier" : "e42a518b-0daa-3917-ba10-16f85f8076bf",
+      "name" : "BarcodeScannerProcessor",
+      "comments" : "",
+      "position" : {
+        "x" : 814.0,
+        "y" : 165.0
+      },
+      "bundle" : {
+        "group" : "com.github.jdye64",
+        "artifact" : "nifi-barcode-nar",
+        "version" : "1.9.2"
+      },
+      "style" : { },
+      "type" : "com.jeremydyer.nifi.processors.barcode.BarcodeScannerProcessor",
+      "properties" : {
+        "Destination" : "flowfile-attribute"
+      },
+      "propertyDescriptors" : {
+        "Destination" : {
+          "name" : "Destination",
+          "displayName" : "Destination",
+          "identifiesControllerService" : false,
+          "sensitive" : false
+        }
+      },
+      "schedulingPeriod" : "0 sec",
+      "schedulingStrategy" : "TIMER_DRIVEN",
+      "executionNode" : "ALL",
+      "penaltyDuration" : "30 sec",
+      "yieldDuration" : "1 sec",
+      "bulletinLevel" : "WARN",
+      "runDurationMillis" : 0,
+      "concurrentlySchedulableTaskCount" : 1,
+      "autoTerminatedRelationships" : [ "failure" ],
+      "componentType" : "PROCESSOR",
+      "groupIdentifier" : "c1b8e3f8-3fdd-382a-a364-a6313dd9ce2c"
+    }, {
+      "identifier" : "7e0be63c-a85a-3495-8ec1-ab2d8c29b9a4",
+      "name" : "LogAttribute",
+      "comments" : "",
+      "position" : {
+        "x" : 532.0,
+        "y" : 449.0
+      },
+      "bundle" : {
+        "group" : "org.apache.nifi",
+        "artifact" : "nifi-standard-nar",
+        "version" : "1.9.0.1.0.0.0-90"
+      },
+      "style" : { },
+      "type" : "org.apache.nifi.processors.standard.LogAttribute",
+      "properties" : {
+        "character-set" : "US-ASCII",
+        "Log Level" : "info",
+        "attributes-to-log-regex" : ".*",
+        "Log Payload" : "false"
+      },
+      "propertyDescriptors" : {
+        "Log prefix" : {
+          "name" : "Log prefix",
+          "displayName" : "Log prefix",
+          "identifiesControllerService" : false,
+          "sensitive" : false
+        },
+        "character-set" : {
+          "name" : "character-set",
+          "displayName" : "Character Set",
+          "identifiesControllerService" : false,
+          "sensitive" : false
+        },
+        "Log Level" : {
+          "name" : "Log Level",
+          "displayName" : "Log Level",
+          "identifiesControllerService" : false,
+          "sensitive" : false
+        },
+        "attributes-to-ignore-regex" : {
+          "name" : "attributes-to-ignore-regex",
+          "displayName" : "Attributes to Ignore by Regular Expression",
+          "identifiesControllerService" : false,
+          "sensitive" : false
+        },
+        "Attributes to Ignore" : {
+          "name" : "Attributes to Ignore",
+          "displayName" : "Attributes to Ignore",
+          "identifiesControllerService" : false,
+          "sensitive" : false
+        },
+        "Attributes to Log" : {
+          "name" : "Attributes to Log",
+          "displayName" : "Attributes to Log",
+          "identifiesControllerService" : false,
+          "sensitive" : false
+        },
+        "attributes-to-log-regex" : {
+          "name" : "attributes-to-log-regex",
+          "displayName" : "Attributes to Log by Regular Expression",
+          "identifiesControllerService" : false,
+          "sensitive" : false
+        },
+        "Log Payload" : {
+          "name" : "Log Payload",
+          "displayName" : "Log Payload",
+          "identifiesControllerService" : false,
+          "sensitive" : false
+        }
+      },
+      "schedulingPeriod" : "0 sec",
+      "schedulingStrategy" : "TIMER_DRIVEN",
+      "executionNode" : "ALL",
+      "penaltyDuration" : "30 sec",
+      "yieldDuration" : "1 sec",
+      "bulletinLevel" : "WARN",
+      "runDurationMillis" : 0,
+      "concurrentlySchedulableTaskCount" : 1,
+      "autoTerminatedRelationships" : [ ],
+      "componentType" : "PROCESSOR",
+      "groupIdentifier" : "c1b8e3f8-3fdd-382a-a364-a6313dd9ce2c"
+    } ],
+    "inputPorts" : [ ],
+    "outputPorts" : [ ],
+    "connections" : [ {
+      "identifier" : "226378c4-fa40-30b4-b13d-dd8eb836623f",
+      "name" : "",
+      "source" : {
+        "id" : "d3268207-6311-3886-8e8e-353989dcbc60",
+        "type" : "PROCESSOR",
+        "groupId" : "c1b8e3f8-3fdd-382a-a364-a6313dd9ce2c",
+        "name" : "Get Barcodes from Directory",
+        "comments" : ""
+      },
+      "destination" : {
+        "id" : "e42a518b-0daa-3917-ba10-16f85f8076bf",
+        "type" : "PROCESSOR",
+        "groupId" : "c1b8e3f8-3fdd-382a-a364-a6313dd9ce2c",
+        "name" : "BarcodeScannerProcessor",
+        "comments" : ""
+      },
+      "labelIndex" : 1,
+      "zIndex" : 0,
+      "selectedRelationships" : [ "success" ],
+      "backPressureObjectThreshold" : 10000,
+      "backPressureDataSizeThreshold" : "1 GB",
+      "flowFileExpiration" : "0 sec",
+      "prioritizers" : [ ],
+      "bends" : [ ],
+      "loadBalanceStrategy" : "DO_NOT_LOAD_BALANCE",
+      "partitioningAttribute" : "",
+      "loadBalanceCompression" : "DO_NOT_COMPRESS",
+      "componentType" : "CONNECTION",
+      "groupIdentifier" : "c1b8e3f8-3fdd-382a-a364-a6313dd9ce2c"
+    }, {
+      "identifier" : "9102d5c2-0876-3758-81fd-9ecfe9650fcd",
+      "name" : "",
+      "source" : {
+        "id" : "e42a518b-0daa-3917-ba10-16f85f8076bf",
+        "type" : "PROCESSOR",
+        "groupId" : "c1b8e3f8-3fdd-382a-a364-a6313dd9ce2c",
+        "name" : "BarcodeScannerProcessor",
+        "comments" : ""
+      },
+      "destination" : {
+        "id" : "7e0be63c-a85a-3495-8ec1-ab2d8c29b9a4",
+        "type" : "PROCESSOR",
+        "groupId" : "c1b8e3f8-3fdd-382a-a364-a6313dd9ce2c",
+        "name" : "LogAttribute",
+        "comments" : ""
+      },
+      "labelIndex" : 1,
+      "zIndex" : 0,
+      "selectedRelationships" : [ "success" ],
+      "backPressureObjectThreshold" : 10000,
+      "backPressureDataSizeThreshold" : "1 GB",
+      "flowFileExpiration" : "0 sec",
+      "prioritizers" : [ ],
+      "bends" : [ ],
+      "loadBalanceStrategy" : "DO_NOT_LOAD_BALANCE",
+      "partitioningAttribute" : "",
+      "loadBalanceCompression" : "DO_NOT_COMPRESS",
+      "componentType" : "CONNECTION",
+      "groupIdentifier" : "c1b8e3f8-3fdd-382a-a364-a6313dd9ce2c"
+    } ],
+    "labels" : [ ],
+    "funnels" : [ ],
+    "controllerServices" : [ ],
+    "variables" : { },
+    "componentType" : "PROCESS_GROUP"
+  }
+}

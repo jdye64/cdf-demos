@@ -5,8 +5,13 @@
   vars:
     nifi_c2_agent_identifier: weblogs-atl-agent-1776
     nifi_c2_agent_class: weblogs-demo
-  
+
   tasks:
+    - name: See if nifi addons have already been downloaded
+      stat:
+        path: /usr/cdf/cfm/nifi/nifi-1.9.0.1.0.0.0-90/lib/nifi-file-nar-1.9.2.nar
+      register: nifi_addons
+
     - name: Download the Nifi Addon nars from Github Release
       unarchive:
         src: https://github.com/jdye64/nifi-addons/releases/download/v1.9.2/NiFi.Addons.for.NiFi.1.9.2.zip
@@ -15,11 +20,101 @@
         group: cfm
         mode: 0775
         remote_src: yes
+      when: nifi_addons.stat.exists == False
       notify:
         - restart nifi
+        - restart nifi-registry
+
+    - name: create the directory where the local barcodes will be saved
+      file:
+        path: /usr/cdf/cfm/nifi/barcodes
+        state: directory
+        owner: nifi
+        group: cfm
+        mode: 0775
+
+    - name: Remove busted nifi-hdfs nar from this release
+      file:
+        path: /usr/cdf/cfm/nifi/nifi-1.9.0.1.0.0.0-90/lib/nifi-hdfs-nar-1.9.2.nar
+        state: absent
+
+    - name: Remove OpenCV nar since it requires OpenCV be installed on the system for nifi to start
+      file:
+        path: /usr/cdf/cfm/nifi/nifi-1.9.0.1.0.0.0-90/lib/nifi-opencv-nar-1.9.2.nar
+        state: absent
+
+    - name: Copy the sample barcode image to the server
+      copy:
+        src: demos/barcode-demo/barcode.png
+        dest: /usr/cdf/cfm/nifi/barcodes/barcode.png
+        owner: nifi
+        group: cfm
+        mode: 0777
+
+    - name: Add the nifi-registry client to nifi
+      uri:
+        url: "http://{{ inventory_hostname }}:8080/nifi-api/controller/registry-clients"
+        method: POST
+        body_format: json
+        src: nifi/rest-api/nifi-registry-add.json
+        status_code:
+          - 201
+          - 409
+
+    # - name: get the list of nifi regsitry clients
+    #   uri:
+    #     url: "http://{{ inventory_hostname }}:8080/nifi-api/controller/registry-clients"
+    #     method: GET
+    #     body_format: json
+    #     return_content: yes
+    #     status_code:
+    #       - 200
+    #   register: result
+
+    # - name: output the id of the newly created nifi registry client
+    #   debug: var=result.json.registries[0].id
+
+    - name: create Barcode-Demo bucket
+      command: /usr/cem/current/nifi-toolkit/bin/cli.sh registry create-bucket -u http://localhost:18080 --bucketName Barcode-Demo
+      ignore_errors: yes
+      register: command_result
+
+    # - name: output the command response
+    #   debug: var=command_result
+
+    - name: upload the barcode demo json to the nifi-registry bucket
+      uri:
+        url: "http://{{ inventory_hostname }}:18080/nifi-registry-api/"
+        method: POST
+        body_format: json
+        src: demos/barcode-demo/BarcodeDemo.json
+        status_code:
+          - 201
+          - 409
+
+    # - name: upload barcode demo to nifi-registry bucket
+    #   command: /usr/cem/current/nifi-toolkit/bin/cli.sh registry export-flow-version -u http://localhost:18080 --flowIdentifier 4cf835e6-50b6-44ab-9acb-45a11c44c3a -o BarcodeDemo.json
+    #   ignore_errors: yes
+
+    # - name: upload barcode demo to nifi-registry bucket
+    #   command: /usr/cem/current/nifi-toolkit/bin/cli.sh registry export-flow-version -u http://localhost:18080 --flowIdentifier 4cf835e6-50b6-44ab-9acb-45a11c44c3a -o BarcodeDemo.json
+    #   ignore_errors: yes
+
+    - name: import barcode demo process group from nifi-registry to nifi
+      uri:
+        url: "http://{{ inventory_hostname }}:8080/nifi-api/process-groups/b1da2a72-016a-1000-e167-dcb190bc14ae/process-groups"
+        method: POST
+        body_format: json
+        src: demos/barcode-demo/import-barcode-demo-from-registry.json
+        status_code:
+          - 201
 
   handlers:
     - name: restart nifi
       service: 
         name: nifi
+        state: restarted
+    - name: restart nifi-registry
+      service:
+        name: nifi-registry
         state: restarted

@@ -8,5 +8,6 @@
     - mysql
     - efm
     - minifi-cpp
+    - minifi-java
     - cfm
     - nifi

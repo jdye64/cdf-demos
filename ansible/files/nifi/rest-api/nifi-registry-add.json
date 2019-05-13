@@ -1,0 +1,17 @@
+{
+    "revision": {
+	    "clientId": "value",
+	    "version": 0,
+	    "lastModifier": "value"
+	},
+    "permissions": {
+	    "canRead": true,
+	    "canWrite": true
+	},
+    "disconnectedNodeAcknowledged": true,
+    "component": {
+	    "name": "Local NiFi-Registry",
+	    "description": "Local NiFi-Registry instance",
+	    "uri": "http://localhost:18080"
+	}
+}
