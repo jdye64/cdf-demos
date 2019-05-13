@@ -1,0 +1,25 @@
+- name: BarcodeDemo
+  hosts: nifi
+  become: true
+
+  vars:
+    nifi_c2_agent_identifier: weblogs-atl-agent-1776
+    nifi_c2_agent_class: weblogs-demo
+  
+  tasks:
+    - name: Download the Nifi Addon nars from Github Release
+      unarchive:
+        src: https://github.com/jdye64/nifi-addons/releases/download/v1.9.2/NiFi.Addons.for.NiFi.1.9.2.zip
+        dest: /usr/cdf/cfm/nifi/nifi-1.9.0.1.0.0.0-90/lib
+        owner: nifi
+        group: cfm
+        mode: 0775
+        remote_src: yes
+      notify:
+        - restart nifi
+
+  handlers:
+    - name: restart nifi
+      service: 
+        name: nifi
+        state: restarted

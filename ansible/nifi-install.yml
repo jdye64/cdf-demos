@@ -1,5 +1,5 @@
-- name: CEM WebLogs-Demo
-  hosts: weblogs-demo
+- name: NiFi Install
+  hosts: nifi
   become: true
   vars:
     nifi_c2_agent_identifier: weblogs-atl-agent-1776
@@ -8,7 +8,5 @@
     - cdf
     - nifi-registry
     - nifi-toolkit
-    - efm
-    - minifi-cpp
-    - minifi-java
-    - nginx
+    - cfm
+    - nifi

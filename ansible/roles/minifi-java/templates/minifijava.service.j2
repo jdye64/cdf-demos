@@ -1,0 +1,15 @@
+# {{ ansible_managed }}
+[Unit]
+Description=Apache NiFi MiNiFi Java
+After=network.target
+StartLimitIntervalSec=0
+
+[Service]
+Type=forking
+User=minifijava
+Group=cem
+ExecStart=/usr/cdf/cem/agents/minifi/java/minifi-0.6.0.1.0.0.0-54/bin/minifi.sh start
+ExecStop=/usr/cdf/cem/agents/minifi/java/minifi-0.6.0.1.0.0.0-54/bin/minifi.sh stop
+
+[Install]
+WantedBy=multi-user.target

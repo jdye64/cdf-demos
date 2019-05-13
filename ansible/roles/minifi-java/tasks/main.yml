@@ -1,0 +1,59 @@
+---
+# tasks file for MiNiFi Java
+
+- name: create minifijava system account
+  user:
+    name: minifijava
+    groups: cem
+    append: yes
+    system: yes
+    state: present
+
+- name: Create MiNiFi Java Directory
+  file:
+    path: /usr/cdf/cem/agents/minifi/java
+    state: directory
+    mode: 0755
+
+- name: Download MiNiFi Java 1.0.0
+  unarchive:
+    src: http://downloads-hortonworks.akamaized.net/CEM/centos7/1.x/updates/1.0.0.0/tars/minifi/minifi-0.6.0.1.0.0.0-54-bin.tar.gz
+    dest: /usr/cdf/cem/agents/minifi/java
+    remote_src: yes
+
+# - name: Add MiNiFi Java Properties file
+#   template: 
+#     src: minifi.properties.j2 
+#     dest: /usr/cdf/cem/agents/minifi/cpp/nifi-minifi-cpp-0.6.0/conf/minifi.properties
+#     owner: minificpp
+#     group: cem
+#     mode: 0775
+#   notify:
+#     - start minificpp
+
+# - name: Add/Change MiNiFi C++ logging configuration
+#   template: 
+#     src: minifi-log.properties.j2 
+#     dest: /usr/cdf/cem/agents/minifi/cpp/nifi-minifi-cpp-0.6.0/conf/minifi-log.properties
+#     owner: minificpp
+#     group: cem
+#     mode: 0775
+#   notify:
+#     - start minificpp
+
+- file:
+    path: /usr/cdf/cem/agents/minifi/java
+    owner: minifijava
+    group: cem
+    mode: 0775
+    recurse: yes
+
+- name: install systemd minificpp.service
+  template:
+    src: minifijava.service.j2
+    dest: /etc/systemd/system/minifijava.service
+    mode: 0644
+    backup: yes
+  tags: [conf,systemd]
+  notify:
+    - start minifijava

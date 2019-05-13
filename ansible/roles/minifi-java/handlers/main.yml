@@ -1,0 +1,7 @@
+---
+# handlers file for minifi java
+- name: start minifijava
+  service:
+    name: minifijava
+    state: started
+    enabled: yes

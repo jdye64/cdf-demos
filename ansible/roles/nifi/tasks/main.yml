@@ -202,3 +202,10 @@
     enabled: yes
   when: nifi_install_service|bool
   tags: [conf,systemd]
+
+- file:
+    path: /usr/cdf/cfm/nifi
+    owner: nifi
+    group: cfm
+    mode: 0775
+    recurse: yes

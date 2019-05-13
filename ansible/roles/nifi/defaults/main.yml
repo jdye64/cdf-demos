@@ -12,6 +12,7 @@ nifi_install_root: /usr/local
 nifi_install_dir: "{{ nifi_install_root }}/nifi-{{ nifi_version }}"
 nifi_toolkit_install_dir: "{{ nifi_install_root }}/nifi-toolkit-{{ nifi_version }}"
 nifi_run_as: nifi
+nifi_run_as_group: cfm
 nifi_java_min_memory: 512m
 nifi_java_max_memory: 512m
 nifi_install_service: True

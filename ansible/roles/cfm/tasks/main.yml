@@ -17,7 +17,7 @@
 - name: create nifi system account
   user:
     name: "{{ nifi_run_as }}"
-    groups: cdf
+    groups: cdf,cfm
     append: yes
     system: yes
     state: present
@@ -27,8 +27,8 @@
 - name: Create CFM NiFi Directory
   file:
     path: /usr/cdf/cfm/nifi/
-    owner: root
-    group: cem
+    owner: nifi
+    group: cfm
     state: directory
     mode: 0775
   tags: [setup]
