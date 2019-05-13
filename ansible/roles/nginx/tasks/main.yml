@@ -1,0 +1,10 @@
+---
+# Tasks for the NGinx installation
+
+- name: Install NGinx
+  yum:
+    name: nginx
+    state: present
+  tags: [setup]
+  notify:
+    - start nginx

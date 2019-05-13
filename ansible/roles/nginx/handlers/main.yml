@@ -1,0 +1,4 @@
+---
+# handlers file for CDF
+- name: start nginx
+  service: name=nginx state=started

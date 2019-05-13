@@ -100,11 +100,3 @@
     group: cdf
     state: directory
     mode: 0775
-
-- name: Create CEM current dir
-  file:
-    path: /usr/cdf/cem/current
-    owner: root
-    group: cem
-    state: directory
-    mode: 0775

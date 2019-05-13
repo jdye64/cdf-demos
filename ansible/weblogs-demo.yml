@@ -1,0 +1,13 @@
+- name: CEM WebLogs-Demo
+  hosts: weblogs-demo
+  become: true
+  vars:
+    nifi_c2_agent_identifier: weblogs-atl-agent-1776
+    nifi_c2_agent_class: weblogs-demo
+  roles:
+    - cdf
+    - nifi-registry
+    - nifi-toolkit
+    - efm
+    - minifi-cpp
+    - nginx
