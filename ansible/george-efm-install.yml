@@ -1,0 +1,10 @@
+- name: Install Cloudera Edge Management (CEM) 1.0.0
+  hosts: george_efm
+  become: true
+  roles:
+    - cdf
+    - nifi-registry
+    - nifi-toolkit
+    - mysql
+    - efm
+    - minifi-cpp

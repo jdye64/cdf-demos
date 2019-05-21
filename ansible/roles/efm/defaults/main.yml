@@ -1,4 +1,10 @@
 ---
+# vars that are expected to be passed in by the role playbook
+efm_version: master
+
+efm_user: efm
+efm_group: efm
+
 # defaults file for efm
 efm_address: 0.0.0.0
 efm_rest_port: 10080

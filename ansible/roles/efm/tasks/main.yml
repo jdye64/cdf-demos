@@ -2,7 +2,7 @@
 # tasks file for efm
 - name: create efm system group
   group:
-    name: efm
+    name: "{{ efm_group }}"
     state: present
   tags: [setup]
 

@@ -84,7 +84,7 @@
 
     - name: upload the barcode demo json to the nifi-registry bucket
       uri:
-        url: "http://{{ inventory_hostname }}:18080/nifi-registry-api/"
+        url: "http://{{ inventory_hostname }}:18080/nifi-registry-api/buckets/0a4cd7d3-cbc9-4024-9181-f15c45cbd486/flows"
         method: POST
         body_format: json
         src: demos/barcode-demo/BarcodeDemo.json
